@@ -1,143 +1,238 @@
 import *  as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
+import { getOnlyFacadesGeometry } from './facades';
+import { get } from 'http';
 
-interface BatimentData {
-  data: {
-    attributes: {
-      position: {
-        array: number[];
-      };
-      normal: {
-        array: number[];
-      };
-    };
-  };
-}
+//interface BatimentData {
+//  data: {
+//    attributes: {
+//      position: {
+//        array: number[];
+//      };
+//      normal: {
+//        array: number[];
+//      };
+//    };
+//  };
+//}
 
 //recuperer le batiment
-const url = "/Bat.json"
-const batiment = await fetch(url)
-  .then(response => response.json()).then(data => {return data.geometries[0].geometry;});//ok
-//conversion des donnes json en buffergeometry
+//const url = "/Bat.json"
+//const batiment = await fetch(url).then(response => response.json()).then(data => {return data.geometries[0].geometry;});//ok
 
-const normals = batiment.data.attributes.normal.array;
-const indices = batiment.data.index.array;
-const positions = batiment.data.attributes.position.array;
+//console.log(batiment);
 
-//recupertion des facades 
-function getFacades<T extends BatimentData>(batiment: T) {
-  const faces = [];
-  const normals = [];
+//const renderer = new THREE.WebGLRenderer();
+//renderer.setPixelRatio(window.devicePixelRatio);
+//renderer.setSize(window.innerWidth, window.innerHeight);
+//renderer.setClearColor(0xffffff);
 
-  const vertices = batiment.data.attributes.position.array;
-  const facesNormals = batiment.data.attributes.normal.array; 
+//document.body.appendChild(renderer.domElement);
 
-  for (let i = 0 ; i < vertices.length; i += 3) {
-    const x = vertices[i];
-    const y = vertices[i + 1];
-    const z = vertices[i + 2];
+//const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); 
+//camera.position.set(0, 0, 5);
 
-    if (facesNormals[i + 1] != 0) continue;
+//const controls = new OrbitControls(camera, renderer.domElement);
 
-    faces.push(x, y, z);
-    normals.push(facesNormals[i], facesNormals[i + 1], facesNormals[i + 2]);
-  };
-  return {faces, normals};
-}
+//const scene = new THREE.Scene();
 
-function extractFacades(normals: number[], indices: number[], positions: number[]) {
-  const facades = [];//stock les vertex; positions
-  const normals2 = [];//stock les normales; normal
-  const indexes = [];//stock les indices; index
+//const gridHelper = new THREE.GridHelper(10, 10);
 
-  // Parcourir les indices par groupes de 3 (chaque groupe représente une face)
-  for (let i = 0; i < indices.length; i += 3) {
-      const normalIndex = indices[i] * 3;
-      const normal = [normals[normalIndex], normals[normalIndex + 1], normals[normalIndex + 2]];
+//const loader = new THREE.BufferGeometryLoader();
+//const geometry = loader.parse(batiment);
 
-      // Vérifier si la normale est horizontale (composante y = 0)
-      if (normal[1] === 0) {
-          const faceIndices = [indices[i], indices[i + 1], indices[i + 2]];
-          const faceVertices = faceIndices.map(index => {
-              const vertexIndex = index * 3;
-              return [
-                  positions[vertexIndex],
-                  positions[vertexIndex + 1],
-                  positions[vertexIndex + 2]
-              ];
-          });
-          facades.push(...faceVertices);
-          normals2.push(...normal);
-          indexes.push(...faceIndices);
-      }
-  }
+//console.log(geometry);
 
-  return {facades, normals2, indexes};
-}
+//geometry.scale(0.09, 0.09, 0.09);
 
-const renderer = new THREE.WebGLRenderer();
 
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0xffffff);
+////nouvelle  pproche regrouper les points partagean le meme plan la meme normale  et les recuperer dans un tableau
+//function groupPositionsByPlan(geometry: any) {
+//  const position = geometry.attributes.position.array;
+//  const normal = geometry.attributes.normal.array;
 
-document.body.appendChild(renderer.domElement);
+//  const faces = [];
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); 
-camera.position.set(0, 0, 5);
-//camera.lookAt(0, 0, 0);//look at the origin
-const controls = new OrbitControls(camera, renderer.domElement);
+//  for (let i = 0; i < normal.length; i += 3) {
+//    let normal1 = new THREE.Vector3(normal[i], normal[i+1], normal[i+2]);
+//    for (let j = i; j < normal.length; j+=3) {
+//      let normal2 = new THREE.Vector3(normal[j], normal[j+1], normal[j+2]);
+//      if (normal1.equals(normal2)) {
+//        console.log("same normal");
+//        continue;
+//      }
+//      i = j;
+//      console.log("different normal");
+//    }
+  
+//  }
+//}
 
+//groupPositionsByPlan(geometry);
+//// Compute the bounding box of the geometry
+//geometry.computeBoundingBox();
+//const boundingBox = geometry.boundingBox;
+
+//// Calculate the center of the bounding box
+//const center = new THREE.Vector3();
+//boundingBox?.getCenter(center);
+
+//const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+//material.side = THREE.DoubleSide;
+
+//const mesh = new THREE.Mesh(geometry, material);
+
+//scene.add(mesh, gridHelper);
+
+//mesh.position.sub(center);
+
+//camera.position.set(center.x, center.y, center.z + 10);
+//camera.lookAt(center);
+
+
+
+
+
+////render looop
+//function animate() {
+//  requestAnimationFrame(animate);
+//  renderer.render(scene, camera);
+//  controls.update();
+//}
+//animate();
+
+// Création de la scène
 const scene = new THREE.Scene();
 
-const gridHelper = new THREE.GridHelper(10, 10);
+// Création de la caméra
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
 
-const loader = new THREE.BufferGeometryLoader();
+// Création du rendu
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-//render looop
+const controls = new OrbitControls(camera, renderer.domElement);
+
+// Définition des positions des sommets pour un cube
+const positions = new Float32Array([
+  // Face avant
+  -1, -1,  1,
+   1, -1,  1,
+   1,  1,  1,
+  -1,  1,  1,
+  // Face arrière
+  -1, -1, -1,
+  -1,  1, -1,
+   1,  1, -1,
+   1, -1, -1,
+  // Face supérieure
+  -1,  1, -1,
+  -1,  1,  1,
+   1,  1,  1,
+   1,  1, -1,
+  // Face inférieure
+  -1, -1, -1,
+   1, -1, -1,
+   1, -1,  1,
+  -1, -1,  1,
+  // Face droite
+   1, -1, -1,
+   1,  1, -1,
+   1,  1,  1,
+   1, -1,  1,
+  // Face gauche
+  -1, -1, -1,
+  -1, -1,  1,
+  -1,  1,  1,
+  -1,  1, -1
+]);
+
+// Définition des normales pour chaque sommet du cube
+const normals = new Float32Array([
+  // Face avant
+   0,  0,  1,
+   0,  0,  1,
+   0,  0,  1,
+   0,  0,  1,
+  // Face arrière
+   0,  0, -1,
+   0,  0, -1,
+   0,  0, -1,
+   0,  0, -1,
+  // Face supérieure
+   0,  1,  0,
+   0,  1,  0,
+   0,  1,  0,
+   0,  1,  0,
+  // Face inférieure
+   0, -1,  0,
+   0, -1,  0,
+   0, -1,  0,
+   0, -1,  0,
+  // Face droite
+   1,  0,  0,
+   1,  0,  0,
+   1,  0,  0,
+   1,  0,  0,
+  // Face gauche
+  -1,  0,  0,
+  -1,  0,  0,
+  -1,  0,  0,
+  -1,  0,  0
+]);
+
+// Définition des indices pour les faces du cube
+const indices = new Uint16Array([
+  0,  1,  2,   0,  2,  3,  // Face avant
+  4,  5,  6,   4,  6,  7,  // Face arrière
+  8,  9,  10,  8,  10, 11, // Face supérieure
+  12, 13, 14,  12, 14, 15, // Face inférieure
+  16, 17, 18,  16, 18, 19, // Face droite
+  20, 21, 22,  20, 22, 23  // Face gauche
+]);
+
+// Création des attributs de position et de normale
+const positionAttribute = new THREE.BufferAttribute(positions, 3);
+const normalAttribute = new THREE.BufferAttribute(normals, 3);
+
+// Création de la géométrie et ajout des attributs
+const geometry = new THREE.BufferGeometry();
+geometry.setAttribute('position', positionAttribute);
+geometry.setAttribute('normal', normalAttribute);
+
+// Création du matériau
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+
+
+geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+
+const newGeometry = getOnlyFacadesGeometry(geometry);  
+
+
+const greenMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+
+const testMesh = new THREE.Mesh(newGeometry, greenMaterial);
+
+scene.add(testMesh);
+
+
+
+
+// Création du maillage
+//const mesh = new THREE.Mesh(geometry, material);
+//scene.add(mesh);
+
+// Ajout de la lumière
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(5, 5, 5).normalize();
+scene.add(light);
+
+// Fonction d'animation
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
   controls.update();
 }
-
-const facades = extractFacades(normals, indices, positions);
-const onlyFacadesGeometry = new THREE.BufferGeometry();
-
-const vertices = new Float32Array(facades.facades.flat());
-const normals2 = new Float32Array(facades.normals2);
-
-const geometry = loader.parse(batiment);
-
-geometry.scale(0.09, 0.09, 0.09);
-// Compute the bounding box of the geometry
-geometry.computeBoundingBox();
-const boundingBox = geometry.boundingBox;
-
-// Calculate the center of the bounding box
-const center = new THREE.Vector3();
-boundingBox?.getCenter(center);
-
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-material.side = THREE.DoubleSide;
-
-geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
-geometry.setAttribute("normal", new THREE.BufferAttribute(normals2, 3));
-
-const mesh = new THREE.Mesh(geometry, material);
-
-scene.add(mesh, gridHelper);
-
-mesh.position.sub(center);
-
-// Set the camera position and look at the center
-camera.position.set(center.x, center.y, center.z + 10);
-camera.lookAt(center);
-
-const facadesMesh = new THREE.Mesh(onlyFacadesGeometry, material);
-
-
-scene.add(facadesMesh);
-
 animate();
-
