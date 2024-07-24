@@ -19,7 +19,8 @@ export const getOnlyFacadesGeometry = (geometry: THREE.BufferGeometry): THREE.Bu
       const normalB = new THREE.Vector3(normals[b * 3], normals[b * 3 + 1], normals[b * 3 + 2]);
       const normalC = new THREE.Vector3(normals[c * 3], normals[c * 3 + 1], normals[c * 3 + 2]);
     
-      const leftNormal = new THREE.Vector3(0, 0, -1);
+      const leftNormal = new THREE.Vector3(-1, 0, 0);
+      
     
       if (normalA.equals(leftNormal) && normalB.equals(leftNormal) && normalC.equals(leftNormal)) {
         leftFaceIndices.push(a, b, c);
