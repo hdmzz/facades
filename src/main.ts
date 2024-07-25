@@ -208,12 +208,22 @@ const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
 geometry.setIndex(new THREE.BufferAttribute(indices, 1));
 
-const newGeometry = getOnlyFacadesGeometry(geometry);  
+const indexOfThePointsByNormal = getOnlyFacadesGeometry(geometry);  
+
+//icic creer une nouvelle geometrie avec les points qui ont la meme normale pour test on prned 1,0,0 pour voir si on a bien les points de la face droite
+
+const rightGeometry = new THREE.BufferGeometry();
+
+rightGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
+rightGeometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(normals), 3));
+rightGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indexOfThePointsByNormal.get("1,0,0")!), 1));
+
+
 
 
 const greenMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
 
-const testMesh = new THREE.Mesh(newGeometry, greenMaterial);
+const testMesh = new THREE.Mesh(rightGeometry, greenMaterial);
 
 scene.add(testMesh);
 
