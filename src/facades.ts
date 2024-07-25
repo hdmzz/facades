@@ -7,7 +7,6 @@ function normalKey(normal: number[]): string {
 
 export const getOnlyFacadesGeometry = (geometry: THREE.BufferGeometry): Map<string, number[]> => {
     //je dois recuperer les index corrrespondqnt a des faces sur le cube donc dont les normal sont non nul
-    const positions = geometry.getAttribute('position').array as Float32Array;
     const normals = geometry.getAttribute('normal').array as Float32Array;
     const indexes = geometry.getIndex()!.array as Uint16Array;
 
@@ -17,6 +16,8 @@ export const getOnlyFacadesGeometry = (geometry: THREE.BufferGeometry): Map<stri
         const index = indexes[i];
         const normal = [normals[index * 3], normals[index * 3 + 1], normals[index * 3 + 2]];
 
+        if (normal[0] === 1 && normal[1] === 0 && normal[2] === 0) 
+            console.log("hello");
         const key = normalKey(normal);
         if (!pointsGroupByNormal.get(key)) {
             pointsGroupByNormal.set(key, [index]);
