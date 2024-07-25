@@ -47,7 +47,6 @@ const indexOfThePointsByNormal = getOnlyFacadesGeometry(batimentGeometry);
 const rightGeometry = new THREE.BufferGeometry();
 
 rightGeometry.setAttribute('position', batimentGeometry.getAttribute('position'));
-rightGeometry.setAttribute('normal', batimentGeometry.getAttribute('normal'));
 rightGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indexOfThePointsByNormal.get("0,-1,0")!), 1));
 
 const greenMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
