@@ -232,7 +232,7 @@ scene.add(light);
 // Fonction d'animation
 function animate() {
   requestAnimationFrame(animate);
-  renderer.render(scene, camera);
+  //renderer.render(scene, camera);
   controls.update();
 }
 animate();
