@@ -1,31 +1,9 @@
 import *  as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
-import { getOnlyFacadesGeometry } from './facades';
-import { get } from 'http';
 
-//interface BatimentData {
-//  data: {
-//    attributes: {
-//      position: {
-//        array: number[];
-//      };
-//      normal: {
-//        array: number[];
-//      };
-//    };
-//  };
-//}
-
-//recuperer le batiment
 const url = "/Bat.json"
-const batiment = await fetch(url).then(response => response.json()).then(data => {return data.geometries[0].geometry;});//ok
-
-console.log(batiment);
 
 const gridHelper = new THREE.GridHelper(10, 10);
-
-const loader = new THREE.BufferGeometryLoader();
-const batimentGeometry = loader.parse(batiment);
 
 // Création de la scène
 const scene = new THREE.Scene();
@@ -42,22 +20,55 @@ document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-const indexOfThePointsByNormal = getOnlyFacadesGeometry(batimentGeometry);  
 
-const rightGeometry = new THREE.BufferGeometry();
+// Importer la bibliothèque three.js
 
-rightGeometry.setAttribute('position', batimentGeometry.getAttribute('position'));
-rightGeometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indexOfThePointsByNormal.get("0,-1,0")!), 1));
+// Fonction pour charger et dessiner le bâtiment
+async function dessinerBatiment() {
+  // Charger le fichier JSON
+  const response = await fetch(url);
+  const batiment = await response.json();
 
-const greenMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+  // Fonction pour dessiner un segment
+  function dessinerSegment(segment: {
+      x: number | undefined;
+      y: number | undefined; z: number | undefined; 
+}[]) {
+    const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+    const points = [];
+    points.push(new THREE.Vector3(segment[0].x, segment[0].y, segment[0].z));
+    points.push(new THREE.Vector3(segment[1].x, segment[1].y, segment[1].z));
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const line = new THREE.Line(geometry, material);
+    scene.add(line);
+  }
 
-const testMesh = new THREE.Mesh(rightGeometry, greenMaterial);
+  // Parcourir les polyèdres et les polygones pour dessiner les segments
+  batiment.polyhedron.forEach((polyhedron: { polygon: any[]; }) => {
+    polyhedron.polygon.forEach((polygon: any[]) => {
+      polygon.forEach((segment: { segment: { x: number, y: number, z: number; }[]; }) => {
+        dessinerSegment(segment.segment);
+      });
+    });
+  });
 
-scene.add(testMesh);
+   // Calculer le centre de la géométrie
+  const box = new THREE.Box3().setFromObject(scene);
+  const center = box.getCenter(new THREE.Vector3());
 
-function animate() {
-  requestAnimationFrame(animate);
-  renderer.render(scene, camera);
-  controls.update();
+  // Positionner la caméra pour centrer la scène
+  camera.position.set(-10, 500,0);
+  camera.lookAt(center);
+
+  // Fonction d'animation
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+    controls.update();
+  }
+
+  animate();
 }
-animate();
+
+// Appeler la fonction pour dessiner le bâtiment
+dessinerBatiment();
