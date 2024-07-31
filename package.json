@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/earcut": "^2.1.4",
+    "earcut": "^3.0.0",
     "typescript": "^5.2.2",
     "vite": "^5.3.4"
   },
