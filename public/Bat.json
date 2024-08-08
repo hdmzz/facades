@@ -2,22 +2,26 @@
     "id": "90bc7289-bff7-406f-a823-d3f880cbd757",
     "isVisible": true,
     "isMovable": true,
+    "_classname": "Polyhedron",
     "polyhedron": [
       {
         "id": "5b7914d7-0673-42c4-ac7a-ecf4b3c396ee_ground_ground_ground_ground_ground_ground",
         "isVisible": true,
         "isMovable": true,
+        "_classname": "Polygon",
         "polygon": [
           [
             {
               "id": "cceceeb2-2eff-4efb-8d83-7c12ea98a995",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "dd3c4f61-f1eb-481b-b5a5-e9f18f77dc92",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
@@ -26,6 +30,7 @@
                   "id": "c3308455-0ad8-4f96-a983-3cd7c9cd8813",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 186,
                   "z": -27.713974985294044
@@ -36,11 +41,13 @@
               "id": "1a2ed454-4743-431b-b85f-c33f2f41b360",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "c3308455-0ad8-4f96-a983-3cd7c9cd8813",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 186,
                   "z": -27.713974985294044
@@ -49,6 +56,7 @@
                   "id": "a4a1be37-476e-4d66-9eb0-69346ca63131",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 186,
                   "z": -21.51266047824174
@@ -59,11 +67,13 @@
               "id": "80cdab9f-b211-44cc-b397-17d04c05e01e",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "a4a1be37-476e-4d66-9eb0-69346ca63131",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 186,
                   "z": -21.51266047824174
@@ -72,6 +82,7 @@
                   "id": "9cbfca81-bca5-47c0-a9c7-7c97b815dfc9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 186,
                   "z": -18.209461644291878
@@ -82,11 +93,13 @@
               "id": "37c489a2-fc98-4c72-87d5-317482a97f4e",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "9cbfca81-bca5-47c0-a9c7-7c97b815dfc9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 186,
                   "z": -18.209461644291878
@@ -95,6 +108,7 @@
                   "id": "6297b5d1-5ecb-460d-b653-06d1c9caff6d",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 186,
                   "z": -19.809785291552544
@@ -105,11 +119,13 @@
               "id": "5d51ef85-cd8f-4495-992f-5ce87e6713af",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "6297b5d1-5ecb-460d-b653-06d1c9caff6d",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 186,
                   "z": -19.809785291552544
@@ -118,6 +134,7 @@
                   "id": "7b366419-a2ea-4483-8f93-09e8974ce73a",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
@@ -128,11 +145,13 @@
               "id": "aad5d675-dc9e-4ab2-a016-e9e96ac21ba0",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "7b366419-a2ea-4483-8f93-09e8974ce73a",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
@@ -141,6 +160,7 @@
                   "id": "dd3c4f61-f1eb-481b-b5a5-e9f18f77dc92",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
@@ -154,17 +174,20 @@
         "id": "cabebc5a-c9f0-4512-b5f3-6fbdae0502ff_roof",
         "isVisible": true,
         "isMovable": true,
+        "_classname": "Polygon",
         "polygon": [
           [
             {
               "id": "a010a996-6959-43e7-9ab0-77166ec286f7",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "56518d5d-c064-4c2b-ad1c-fc8e15c3bdbd",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -173,6 +196,7 @@
                   "id": "92c298fe-f8c3-4957-9273-f05c0416b433",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 192.3,
                   "z": -27.713974985294044
@@ -183,11 +207,13 @@
               "id": "82b72c23-cdfc-4c43-9dbf-7a669bd1d099",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "92c298fe-f8c3-4957-9273-f05c0416b433",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 192.3,
                   "z": -27.713974985294044
@@ -196,6 +222,7 @@
                   "id": "4cb5ac75-aeb2-4034-aa51-5af662478eb9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 192.3,
                   "z": -21.51266047824174
@@ -206,11 +233,13 @@
               "id": "6e31e14e-5913-4a90-8d46-580e23f09ba9",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "4cb5ac75-aeb2-4034-aa51-5af662478eb9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 192.3,
                   "z": -21.51266047824174
@@ -219,6 +248,7 @@
                   "id": "7d6f1d6a-d338-4ca0-8e7f-b2ca1fcdc701",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 192.3,
                   "z": -18.209461644291878
@@ -229,11 +259,13 @@
               "id": "9d5c358e-86be-479b-a2ed-0bae6ac8e5a3",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "7d6f1d6a-d338-4ca0-8e7f-b2ca1fcdc701",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 192.3,
                   "z": -18.209461644291878
@@ -242,6 +274,7 @@
                   "id": "344c6253-aa68-4f91-b21b-ab0ca39e5115",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 192.3,
                   "z": -19.809785291552544
@@ -252,11 +285,13 @@
               "id": "84cc6d33-6e35-4edb-9c3e-6a02fae41d75",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "344c6253-aa68-4f91-b21b-ab0ca39e5115",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 192.3,
                   "z": -19.809785291552544
@@ -265,6 +300,7 @@
                   "id": "8dfd3030-a2cf-4875-808d-14fe4e190eec",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -275,11 +311,13 @@
               "id": "06415b5c-79c3-47e0-961a-22efa0654018",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "8dfd3030-a2cf-4875-808d-14fe4e190eec",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -288,6 +326,7 @@
                   "id": "56518d5d-c064-4c2b-ad1c-fc8e15c3bdbd",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -301,17 +340,20 @@
         "id": "29b1aae3-e810-488d-b26d-8842a8e3f84d_wall",
         "isVisible": true,
         "isMovable": true,
+        "_classname": "Polygon",
         "polygon": [
           [
             {
               "id": "7366eeaa-7229-4cc7-b374-3179ac6b5ae2",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "dd3c4f61-f1eb-481b-b5a5-e9f18f77dc92",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
@@ -320,6 +362,7 @@
                   "id": "56518d5d-c064-4c2b-ad1c-fc8e15c3bdbd",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -330,11 +373,13 @@
               "id": "a010a996-6959-43e7-9ab0-77166ec286f7",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "56518d5d-c064-4c2b-ad1c-fc8e15c3bdbd",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -343,6 +388,7 @@
                   "id": "92c298fe-f8c3-4957-9273-f05c0416b433",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 192.3,
                   "z": -27.713974985294044
@@ -353,11 +399,13 @@
               "id": "79c60522-7bae-42ef-9453-376a7e6fd111",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "c3308455-0ad8-4f96-a983-3cd7c9cd8813",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 186,
                   "z": -27.713974985294044
@@ -366,6 +414,7 @@
                   "id": "92c298fe-f8c3-4957-9273-f05c0416b433",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 192.3,
                   "z": -27.713974985294044
@@ -376,11 +425,13 @@
               "id": "cceceeb2-2eff-4efb-8d83-7c12ea98a995",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "dd3c4f61-f1eb-481b-b5a5-e9f18f77dc92",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
@@ -389,6 +440,7 @@
                   "id": "c3308455-0ad8-4f96-a983-3cd7c9cd8813",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 186,
                   "z": -27.713974985294044
@@ -402,17 +454,20 @@
         "id": "04972228-5d18-4265-aa18-be65db7fe9c8_wall",
         "isVisible": true,
         "isMovable": true,
+        "_classname": "Polygon",
         "polygon": [
           [
             {
               "id": "8885d2a2-61f0-4c20-960e-e7955bacf4ca",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "c3308455-0ad8-4f96-a983-3cd7c9cd8813",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 186,
                   "z": -27.713974985294044
@@ -421,6 +476,7 @@
                   "id": "92c298fe-f8c3-4957-9273-f05c0416b433",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 192.3,
                   "z": -27.713974985294044
@@ -431,11 +487,13 @@
               "id": "82b72c23-cdfc-4c43-9dbf-7a669bd1d099",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "92c298fe-f8c3-4957-9273-f05c0416b433",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 192.3,
                   "z": -27.713974985294044
@@ -444,6 +502,7 @@
                   "id": "4cb5ac75-aeb2-4034-aa51-5af662478eb9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 192.3,
                   "z": -21.51266047824174
@@ -454,11 +513,13 @@
               "id": "e56bedd7-29eb-4ee1-9136-b14274765cca",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "a4a1be37-476e-4d66-9eb0-69346ca63131",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 186,
                   "z": -21.51266047824174
@@ -467,6 +528,7 @@
                   "id": "4cb5ac75-aeb2-4034-aa51-5af662478eb9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 192.3,
                   "z": -21.51266047824174
@@ -477,11 +539,13 @@
               "id": "1a2ed454-4743-431b-b85f-c33f2f41b360",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "c3308455-0ad8-4f96-a983-3cd7c9cd8813",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -38.58205062232446,
                   "y": 186,
                   "z": -27.713974985294044
@@ -490,6 +554,7 @@
                   "id": "a4a1be37-476e-4d66-9eb0-69346ca63131",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 186,
                   "z": -21.51266047824174
@@ -503,17 +568,20 @@
         "id": "ba49aca0-1482-41ef-a213-377e367a31ed_wall",
         "isVisible": true,
         "isMovable": true,
+        "_classname": "Polygon",
         "polygon": [
           [
             {
               "id": "c11992c8-7947-4d42-9949-d092a3d56556",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "a4a1be37-476e-4d66-9eb0-69346ca63131",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 186,
                   "z": -21.51266047824174
@@ -522,6 +590,7 @@
                   "id": "4cb5ac75-aeb2-4034-aa51-5af662478eb9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 192.3,
                   "z": -21.51266047824174
@@ -532,11 +601,13 @@
               "id": "6e31e14e-5913-4a90-8d46-580e23f09ba9",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "4cb5ac75-aeb2-4034-aa51-5af662478eb9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 192.3,
                   "z": -21.51266047824174
@@ -545,6 +616,7 @@
                   "id": "7d6f1d6a-d338-4ca0-8e7f-b2ca1fcdc701",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 192.3,
                   "z": -18.209461644291878
@@ -555,11 +627,13 @@
               "id": "8c4e8b6c-ef7a-4868-8cb8-0d8a113a9dd7",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "9cbfca81-bca5-47c0-a9c7-7c97b815dfc9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 186,
                   "z": -18.209461644291878
@@ -568,6 +642,7 @@
                   "id": "7d6f1d6a-d338-4ca0-8e7f-b2ca1fcdc701",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 192.3,
                   "z": -18.209461644291878
@@ -578,11 +653,13 @@
               "id": "80cdab9f-b211-44cc-b397-17d04c05e01e",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "a4a1be37-476e-4d66-9eb0-69346ca63131",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -50.29338580858894,
                   "y": 186,
                   "z": -21.51266047824174
@@ -591,6 +668,7 @@
                   "id": "9cbfca81-bca5-47c0-a9c7-7c97b815dfc9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 186,
                   "z": -18.209461644291878
@@ -604,17 +682,20 @@
         "id": "ba4c9d65-c691-48fe-82ab-e30a713d8685_wall",
         "isVisible": true,
         "isMovable": true,
+        "_classname": "Polygon",
         "polygon": [
           [
             {
               "id": "b3e4deb6-737b-4a93-b82d-0755bcc5b6db",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "9cbfca81-bca5-47c0-a9c7-7c97b815dfc9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 186,
                   "z": -18.209461644291878
@@ -623,6 +704,7 @@
                   "id": "7d6f1d6a-d338-4ca0-8e7f-b2ca1fcdc701",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 192.3,
                   "z": -18.209461644291878
@@ -633,11 +715,13 @@
               "id": "9d5c358e-86be-479b-a2ed-0bae6ac8e5a3",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "7d6f1d6a-d338-4ca0-8e7f-b2ca1fcdc701",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 192.3,
                   "z": -18.209461644291878
@@ -646,6 +730,7 @@
                   "id": "344c6253-aa68-4f91-b21b-ab0ca39e5115",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 192.3,
                   "z": -19.809785291552544
@@ -656,11 +741,13 @@
               "id": "3545701d-27ee-4886-b99a-6f97a57003d1",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "6297b5d1-5ecb-460d-b653-06d1c9caff6d",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 186,
                   "z": -19.809785291552544
@@ -669,6 +756,7 @@
                   "id": "344c6253-aa68-4f91-b21b-ab0ca39e5115",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 192.3,
                   "z": -19.809785291552544
@@ -679,11 +767,13 @@
               "id": "37c489a2-fc98-4c72-87d5-317482a97f4e",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "9cbfca81-bca5-47c0-a9c7-7c97b815dfc9",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -48.49300598655827,
                   "y": 186,
                   "z": -18.209461644291878
@@ -692,6 +782,7 @@
                   "id": "6297b5d1-5ecb-460d-b653-06d1c9caff6d",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 186,
                   "z": -19.809785291552544
@@ -705,17 +796,20 @@
         "id": "3e99213c-9e38-4462-a4a2-c89f046013e9_wall",
         "isVisible": true,
         "isMovable": true,
+        "_classname": "Polygon",
         "polygon": [
           [
             {
               "id": "ccc9af65-d6f6-4ee9-a734-07e1523cd6fd",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "6297b5d1-5ecb-460d-b653-06d1c9caff6d",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 186,
                   "z": -19.809785291552544
@@ -724,6 +818,7 @@
                   "id": "344c6253-aa68-4f91-b21b-ab0ca39e5115",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 192.3,
                   "z": -19.809785291552544
@@ -734,11 +829,13 @@
               "id": "84cc6d33-6e35-4edb-9c3e-6a02fae41d75",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "344c6253-aa68-4f91-b21b-ab0ca39e5115",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 192.3,
                   "z": -19.809785291552544
@@ -747,6 +844,7 @@
                   "id": "8dfd3030-a2cf-4875-808d-14fe4e190eec",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -757,11 +855,13 @@
               "id": "7f528667-73cf-4b8a-86b3-320a768a59a6",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "7b366419-a2ea-4483-8f93-09e8974ce73a",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
@@ -770,6 +870,7 @@
                   "id": "8dfd3030-a2cf-4875-808d-14fe4e190eec",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -780,11 +881,13 @@
               "id": "5d51ef85-cd8f-4495-992f-5ce87e6713af",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "6297b5d1-5ecb-460d-b653-06d1c9caff6d",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -45.390005713212304,
                   "y": 186,
                   "z": -19.809785291552544
@@ -793,6 +896,7 @@
                   "id": "7b366419-a2ea-4483-8f93-09e8974ce73a",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
@@ -806,17 +910,20 @@
         "id": "c090d0c5-77eb-4791-b5af-6e1143ee0f79_wall",
         "isVisible": true,
         "isMovable": true,
+        "_classname": "Polygon",
         "polygon": [
           [
             {
               "id": "ec27377b-532a-40c6-a48e-aa866e3f545e",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "7b366419-a2ea-4483-8f93-09e8974ce73a",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
@@ -825,6 +932,7 @@
                   "id": "8dfd3030-a2cf-4875-808d-14fe4e190eec",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -835,11 +943,13 @@
               "id": "06415b5c-79c3-47e0-961a-22efa0654018",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "8dfd3030-a2cf-4875-808d-14fe4e190eec",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -848,6 +958,7 @@
                   "id": "56518d5d-c064-4c2b-ad1c-fc8e15c3bdbd",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -858,11 +969,13 @@
               "id": "62cb5b01-2e7d-43d5-aac5-f72ec552b70e",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "dd3c4f61-f1eb-481b-b5a5-e9f18f77dc92",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
@@ -871,6 +984,7 @@
                   "id": "56518d5d-c064-4c2b-ad1c-fc8e15c3bdbd",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 192.3,
                   "z": -24.410794584080577
@@ -881,11 +995,13 @@
               "id": "aad5d675-dc9e-4ab2-a016-e9e96ac21ba0",
               "isVisible": true,
               "isMovable": true,
+              "_classname": "Segment",
               "segment": [
                 {
                   "id": "7b366419-a2ea-4483-8f93-09e8974ce73a",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
@@ -894,6 +1010,7 @@
                   "id": "dd3c4f61-f1eb-481b-b5a5-e9f18f77dc92",
                   "idVisible": true,
                   "isMovable": true,
+                  "classname": "Point",
                   "x": -36.881751297507435,
                   "y": 186,
                   "z": -24.410794584080577
