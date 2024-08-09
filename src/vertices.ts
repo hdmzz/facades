@@ -35,10 +35,10 @@ export function createFace(face: number[]): THREE.Mesh {
     return ( faceMesh );
 }
 
-export function createGeometry(vertices: [number, number, number][][]): THREE.BufferGeometry {
+export function createGeometry(vertices: [number, number, number][]): THREE.BufferGeometry {
     const geometry = new THREE.BufferGeometry();
 
-    const flatVertices = vertices.flat(2);//prend la profondeur du tableau et l'aplatit
+    const flatVertices = vertices.flat(1);//prend la profondeur du tableau et l'aplatit
 
     const verticesArray = new Float32Array(flatVertices);
     geometry.setAttribute('position', new THREE.BufferAttribute(verticesArray, 3));

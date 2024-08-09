@@ -1,18 +1,14 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import earcut from 'earcut';
-import { dot, flattenPolygon, normalize, substract } from './facades';
+import { dotProduct, flattenPolygon, normalize, subtract } from './facades';
 import { constructBat } from './Constructor';
 import { createGeometry } from './vertices';
 const url = "/Bat.json"
 
 const bat = await constructBat();
-console.log("Bat", bat);
-
 
 const gridHelper = new THREE.GridHelper(10, 10);
-
-
 
 // Création de la scène
 const scene = new THREE.Scene();
@@ -20,9 +16,7 @@ scene.background = new THREE.Color(0xffffff);
 
 // Création de la caméra
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = -50;
-camera.position.y = 250;
-camera.position.x = -80;
+camera.position.z = 20;
 scene.add(gridHelper);
 
 // Création du rendu
@@ -38,29 +32,13 @@ export interface Point {
   z: number;
 }
 const polygons = bat.getPolygonFromPolyhedron();
+
 console.log("Polygons", polygons);
 
-const test = polygons[7].toGeojsonCoordinates();
-const polygon = test[0];
+const test = polygons[0].toGeojsonCoordinates();
+const polygon = test[0];//[number, number,number][][]
+
 console.log("Polygon", polygon);
-
-const geometry = createGeometry(polygon);
-
-const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
-
-const line = new THREE.LineLoop(geometry, material);
-scene.add(line);
-
-//const A = substract(polygon[1], polygon[0]);
-//const B = substract(polygon[2], polygon[0]);
-  
-//let u = normalize({x: A.x, y: A.y, z: A.z});
-//let v = substract(B, {x: dot(u, B) * u.x, y: dot(u, B) * u.y, z: dot(u, B) * u.z});
-//v = normalize(v);
-//const o = polygon[0];
-
-//const vertices = flattenPolygon([polygon], u, v, o);
-
 
 function drawFlattenPolygon(polygonArr: [number, number][][]) {
   const polygon = polygonArr[0];
@@ -73,12 +51,12 @@ function drawFlattenPolygon(polygonArr: [number, number][][]) {
 
     // Create the geometry and material
     const geometry = new THREE.ShapeGeometry(shape);
-    const material = new THREE.MeshBasicMaterial({ color: 0x0077ff, wireframe: true, side: THREE.DoubleSide });
+    const material = new THREE.MeshBasicMaterial({ color: 0x0077ff, side: THREE.DoubleSide });
 
     // Create the mesh and add it to the scene
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
-    }
+}
     
     // Render loop
     function animate() {
@@ -90,3 +68,24 @@ function drawFlattenPolygon(polygonArr: [number, number][][]) {
 animate();
 
 
+// Extraire les vecteurs uniques de l'objet
+
+const objFlat = polygon.flat().map(point => JSON.stringify(point)).filter((v, i, a) => a.indexOf(v) === i).map(point => JSON.parse(point));
+
+console.log("ObjFlat", objFlat);
+const A = subtract(objFlat[1], objFlat[0]);
+const B = subtract(objFlat[2], objFlat[0]);
+
+console.log("A", A);
+console.log("B", B); 
+
+let u = normalize(A);
+let v = subtract(B, [dotProduct(u, B) * u[0], dotProduct(u, B) * u[1], dotProduct(u, B) * u[2]]);
+v = normalize(v);
+const o = polygon[0][0];
+
+const vertices = flattenPolygon([objFlat], u, v, o);
+
+console.log("Vertices", vertices);
+
+drawFlattenPolygon(vertices);

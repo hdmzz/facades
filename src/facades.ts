@@ -1,55 +1,44 @@
-import { Point } from "./main";
+type ThreePoint = [number, number, number];
 
-export function substract(a: Point, b: Point): Point {
-  return {x: a.x - b.x, y: a.y - b.y, z: a.z - b.z};
+export function subtract(a: ThreePoint, b: ThreePoint): ThreePoint {
+  return [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
 }
 
 
-export function normalVector(
-  a: Point,
-  b: Point,
-  c: Point,
-): Point {
-  const ac = {x: c.x - a.x, y: c.y - a.y, z: c.z - a.z};
-  const ab = {x: b.x - a.x, y: b.y - a.y, z: b.z - a.z};
-  return {
-    x: ab.y * ac.z - ab.z * ac.y,
-    y: ab.z * ac.x - ab.x * ac.z,
-    z: ab.x * ac.y - ab.y * ac.x,
-  };
-}
-
-export function normalize(v: Point): Point {
-  const length = Math.sqrt(v.x ** 2 + v.y ** 2 + v.z ** 2);
+export function normalize(v: ThreePoint): ThreePoint {
+  const length = Math.sqrt(v[0] ** 2 + v[1] ** 2 + v[2] ** 2);
 
   if (length === 0) {
-    return {x: 0, y: 0, z: 0};
+    return [0, 0, 0];
   }
 
-  return {x: v.x / length, y: v.y / length, z: v.z / length};
+  return [v[0] / length, v[1] / length, v[2] / length];
 }
 
-export function dot(a: Point, b: Point): number {
-  return a.x * b.x + a.y * b.y + a.z * b.z;
+
+export function dotProduct(v1: ThreePoint, v2: ThreePoint): number {
+  return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
 }
 
-// Fonction pour aplatir un polygone 3D en 2D
+
 export function flattenPolygon(
-  polygon: Point[][],
-  u: Point,
-  v: Point,
-  origin: Point,
+  polygon: ThreePoint[][],
+  u: ThreePoint,
+  v: ThreePoint,
+  origin: ThreePoint,
 ): [number, number][][] {
+  console.log("Polygon[0] len", polygon[0]);
   if (polygon.length === 0 || polygon[0].length < 3) {
     throw new Error(
       'Un polygone doit avoir un contour extérieur avec au moins 3 points.',
     );
   }
 
+  // Projeter les points sur le plan 2D (u, v)
   return polygon.map((ring) =>
     ring.map((point) => {
-      const d = substract(point, origin);
-      return [dot(u, d), dot(v, d)];
+      const d = subtract(point, origin);
+      return [dotProduct(u, d), dotProduct(v, d)];
     }),
   );
 }
