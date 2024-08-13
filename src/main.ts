@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { dotProduct, flattenPolygon, normalize, subtract, createBufferGeometryFromPolygon, ThreePoint } from './facades';
 import { constructBat } from './Constructor';
-import { getFlatGridPoints, getFlatGridPointsOptimized } from './grid';
+import { getFlatGridPoints } from './grid';
 const gridHelper = new THREE.GridHelper(100, 30);
 // gridHelper.rotation.x = Math.PI / 2;
 
@@ -99,18 +99,37 @@ originalBatPoints.forEach((polygon, i) => {
   const flatGeom = createBufferGeometryFromPolygon(displayableVertices as ThreePoint[][]);
   const flatMesh = new THREE.Mesh(flatGeom, material);
   flatMesh.position.x = (i * 15) - 50;
-  scene.add(flatMesh);
+  // scene.add(flatMesh);
 });
 
 console.log(faces);
 
 
-const matrixCells = getFlatGridPointsOptimized(faces[0], 1);
+const matrixCells = getFlatGridPoints(faces[6], 3);
 
 console.log(matrixCells);
- 
 
+function generateRandomColor(): string {
+  // Génère un nombre aléatoire entre 0 et 16777215 (le plus grand nombre hexadécimal pour une couleur)
+  const randomNumber = Math.floor(Math.random() * 16777215);
+  // Convertit ce nombre en une chaîne hexadécimale et ajoute les zéros en tête si nécessaire
+  const randomColor = "#" + randomNumber.toString(16).padStart(6, '0');
+  return randomColor;
+}
 
+//drawmatrix(matrixCells);
+
+function drawmatrix(matrixCells: any[]) {
+  matrixCells.forEach((col: any[]) => {
+    col.forEach((cell: any[]) => {
+      const material = new THREE.MeshBasicMaterial({ color: generateRandomColor() });
+      material.side = THREE.DoubleSide;
+      const cellGeom = createBufferGeometryFromPolygon(cell.map((ring: any[]) => ring.map((point: any[]) => [point[0], 0, point[1]])));
+      const cellMesh = new THREE.Mesh(cellGeom, material);
+      scene.add(cellMesh);
+    });
+  });
+}
 
 // Render loop
 function animate() {

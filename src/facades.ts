@@ -269,7 +269,10 @@ export function intersectPolygons(
     const geojsonPolygon1 = turf.polygon(polygon1);
     const geojsonPolygon2 = turf.polygon(polygon2);
 
-    const intersection = turf.intersect(geojsonPolygon1, geojsonPolygon2);
+
+    const featureCollection = turf.featureCollection([geojsonPolygon1, geojsonPolygon2]);
+
+    const intersection = turf.intersect(featureCollection);
 
     if (intersection && Array.isArray(intersection.geometry.coordinates)) {
       return intersection.geometry.coordinates as [number, number][][];

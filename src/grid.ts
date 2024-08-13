@@ -1,5 +1,21 @@
 import * as turf from '@turf/turf';
+import RBush from 'rbush';
 
+interface BBox {
+    minX: number;
+    minY: number;
+    maxX: number;
+    maxY: number;
+    square: [number, number][][];
+  }
+
+/**
+ * Calculates the intersection of two polygons.
+ *
+ * @param polygon1 - The first polygon as an array of coordinate pairs.
+ * @param polygon2 - The second polygon as an array of coordinate pairs.
+ * @returns The intersection of the two polygons as an array of coordinate pairs, or `null` if there is no intersection.
+ */
 export function intersectPolygons(
     polygon1: [number, number][][],
     polygon2: [number, number][][],
@@ -19,26 +35,26 @@ export function intersectPolygons(
     return null;
 }
 
-export const getFlatGridPointsOptimized = (
+export const getFlatGridPoints = (
     polygon: [number, number][][],
     resolution: number,
   ): [number, number][][][][] => {
     let grid: [number, number][][][][] = [];
   
-    // Reduce bounding box to the necessary area only
-    let bbox = turf.bbox(turf.polygon(polygon));
-  
-    // Create a quadtree or R-tree spatial index
-    // const spatialIndex = createSpatialIndex(polygon); // Example placeholder function
-  
+    // Calculate the bounding box of the polygon
+    const bbox = turf.bbox(turf.polygon(polygon));
     const [minX, minY, maxX, maxY] = bbox;
+  
     const ratio = resolution;
   
-    // Iterate over the grid with a possible early-exit based on spatial index checks
+    // Create the R-tree spatial index
+    const rtree = new RBush<BBox>();
+  
+    // Populate the R-tree with the grid cells
     for (let x = minX; x <= maxX; x += ratio) {
-      const column: [number, number][][][] = [];
       for (let y = minY; y <= maxY; y += ratio) {
-        let square: [number, number][][] = [
+        //creation of the square cell
+        const square: [number, number][][] = [
           [
             [x, y],
             [x + ratio, y],
@@ -48,17 +64,41 @@ export const getFlatGridPointsOptimized = (
           ],
         ];
   
-        // Check spatial index first before performing expensive intersection
-        // if (!spatialIndex.mightIntersect(square)) continue;
+        // Calculate the bounding box for the grid cell
+        const cellBBox = {
+          minX: x,
+          minY: y,
+          maxX: x + ratio,
+          maxY: y + ratio,
+          square,
+        };
   
-        let newPolygon = intersectPolygons(polygon, square);
-  
-        if (!newPolygon || newPolygon[0].length < 3) {
-          continue;
-        }
-        column.push(newPolygon);
+        rtree.insert(cellBBox);
       }
-      grid.push(column);
+    }
+  
+    // Query the R-tree with the polygon's bounding box
+    const queryBBox = {
+      minX,
+      minY,
+      maxX,
+      maxY,
+    };
+  
+    // Get all the cells that might intersect with the polygon
+    const potentialCells = rtree.search(queryBBox);
+    
+    console.log("potentialCells", potentialCells);
+
+    // Iterate over the potential cells and check for actual intersection
+    for (const cell of potentialCells) {
+      const newPolygon = intersectPolygons(polygon, cell.square);
+  
+      if (newPolygon && newPolygon[0].length >= 3) {
+        const columnIndex = Math.floor((cell.minX - minX) / ratio);
+        if (!grid[columnIndex]) grid[columnIndex] = [];
+        grid[columnIndex].push(newPolygon);
+      }
     }
   
     return grid;
