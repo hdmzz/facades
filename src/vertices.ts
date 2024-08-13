@@ -13,15 +13,6 @@ export function isolateFaces(vertices: THREE.Vector3[]): THREE.BufferGeometry {/
 
     console.log(geometry);
     return geometry;
-
-    //const faces = new Map<string, number[]>();
-    //for (let i = 0; i < norm.length; i += 3) {
-    //const key = generateKey([norm[i], norm[i + 1], norm[i + 2]]);
-    //if (!faces.has(key)) {
-    //    faces.set(key, []);
-    //}
-    //faces.get(key)!.push(posi[i], posi[i + 1], posi[i + 2]);
-    //};
 }
 
 
