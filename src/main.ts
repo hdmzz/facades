@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
-import { dotProduct, flattenPolygon, normalize, subtract, createBufferGeometryFromPolygon, ThreePoint } from './facades';
+import { dotProduct, flattenPolygon, normalize, subtract, createBufferGeometryFromPolygon, ThreePoint, unflattenPolygon } from './facades';
 import { constructBat } from './Constructor';
 import { getFlatGridPoints } from './grid';
 const gridHelper = new THREE.GridHelper(100, 30);
@@ -51,6 +51,13 @@ const bufferGeometries: THREE.BufferGeometry[] = [];
 let firstPoint: [number, number, number] | null = null;
 const faces: Array<[number, number][][]> = [];
 
+
+
+//!U V O
+let v: ThreePoint = [0,0,0];
+let u: ThreePoint = [0,0,0];
+let o: any = [0,0,0];
+
 originalBatPoints.forEach((polygon, i) => {
   const newPolygon: [number, number, number][][] = [];
   polygon.forEach((ring) => {
@@ -80,32 +87,30 @@ originalBatPoints.forEach((polygon, i) => {
     mesh.position.z = -firstPoint[2];
   }
   
-  scene.add(mesh);
+  //scene.add(mesh);
 
   // Applatissement
   const A = subtract(newPolygon[0][1], newPolygon[0][0]);
   const B = subtract(newPolygon[0][2], newPolygon[0][0]);
 
-  let u = normalize(A);
-  let v = subtract(B, [dotProduct(u, B) * u[0], dotProduct(u, B) * u[1], dotProduct(u, B) * u[2]]);
+  u = normalize(A);
+  v = subtract(B, [dotProduct(u, B) * u[0], dotProduct(u, B) * u[1], dotProduct(u, B) * u[2]]);
   v = normalize(v);
-  const o = newPolygon[0][0];
+  o = newPolygon[0][0];
 
   const flatVertices = flattenPolygon(newPolygon, u, v, o);
   faces.push(flatVertices);
-  // ! Applatissement
-  const displayableVertices: [number, number, number][][] = flatVertices.map((ring) => ring.map((point) => [point[0], 0, point[1]]));
+
+  //// ! Applatissement
+  //const displayableVertices: [number, number, number][][] = flatVertices.map((ring) => ring.map((point) => [point[0], 0, point[1]]));
   
-  const flatGeom = createBufferGeometryFromPolygon(displayableVertices as ThreePoint[][]);
-  const flatMesh = new THREE.Mesh(flatGeom, material);
-  flatMesh.position.x = (i * 15) - 50;
+  //const flatGeom = createBufferGeometryFromPolygon(displayableVertices as ThreePoint[][]);
+  //const flatMesh = new THREE.Mesh(flatGeom, material);
+  //flatMesh.position.x = (i * 15) - 50;
   // scene.add(flatMesh);
 });
 
-console.log(faces);
-
-
-const matrixCells = getFlatGridPoints(faces[6], 3);
+const matrixCells = getFlatGridPoints(faces[0], 3);
 
 console.log(matrixCells);
 
@@ -130,6 +135,12 @@ function drawmatrix(matrixCells: any[]) {
     });
   });
 }
+
+let unflattenedGrid = matrixCells.map((column) =>
+  column.map((cell) => unflattenPolygon(cell, u, v, o)),
+);
+
+
 
 // Render loop
 function animate() {

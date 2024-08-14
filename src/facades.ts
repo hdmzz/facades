@@ -73,6 +73,7 @@ export function unprojectPoint(
   origin: ThreePoint,
   point: [number, number],
 ): ThreePoint {
+
   return [
     origin[0] + point[0] * u[0] + point[1] * v[0],
     origin[1] + point[0] * u[1] + point[1] * v[1],
@@ -226,41 +227,6 @@ export function ensureNormalsPointUpwards(
     }
   }
 }
-
-// Create grid on each face in the face variaabble te grid must be created on the minimum and maximum x and z of the face, the step is 3 it is the size of a cell
-function createGrid(face: [number, number, number][][]): [number, number, number][][] {
-  const step = 3
-  const cells: [number, number, number][][] = []
-
-  face.forEach((ring) => {
-    let minX = Infinity
-    let maxX = -Infinity
-    let minZ = Infinity
-    let maxZ = -Infinity
-
-    ring.forEach((point) => {
-      minX = Math.min(minX, point[0])
-      maxX = Math.max(maxX, point[0])
-      minZ = Math.min(minZ, point[2])
-      maxZ = Math.max(maxZ, point[2])
-    })
-
-    for (let x = minX; x < maxX; x += step) {
-      for (let z = minZ; z < maxZ; z += step) {
-        const cell: [number, number, number][] = [
-          [x, 0, z],
-          [x + step, 0, z],
-          [x + step, 0, z + step],
-          [x, 0, z + step],
-        ]
-        cells.push(cell)
-      }
-    }
-  })
-
-  return cells
-}
-
 
 export function intersectPolygons(
   polygon1: [number, number][][],
