@@ -3,6 +3,8 @@ import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { dotProduct, flattenPolygon, normalize, subtract, createBufferGeometryFromPolygon, ThreePoint, unflattenPolygon } from './facades';
 import { constructBat } from './Constructor';
 import { getFlatGridPoints } from './grid';
+import Polygon from './Polygon';
+import { create } from 'domain';
 const gridHelper = new THREE.GridHelper(100, 30);
 // gridHelper.rotation.x = Math.PI / 2;
 
@@ -45,74 +47,28 @@ const tableIncludePoint = (table: [number, number, number][], point: [number, nu
   return false;
 }
 
-const originalBatPoints = bat.getPolygonFromPolyhedron().map((polygon) => polygon.toGeojsonCoordinates());
+const BatPoints = bat.getPolygonFromPolyhedron().map((polygon) => polygon.toGeojsonCoordinates());
 
 const bufferGeometries: THREE.BufferGeometry[] = [];
 let firstPoint: [number, number, number] | null = null;
-const faces: Array<[number, number][][]> = [];
 
+/**
+ * Fonction pour obtenir une grille de cellule à l'intérieur d'un polygone 3D
+ * @param polygon Le polygone 3D est un polygone dont tous les points sont sur le même plan
+ * @param resolution la taille maximale du côté d'une cellule
+ * @return Une grille de cellules qui prend la place de la face
+ */
 
-
-//!U V O
-let v: ThreePoint = [0,0,0];
-let u: ThreePoint = [0,0,0];
-let o: any = [0,0,0];
-
-originalBatPoints.forEach((polygon, i) => {
-  const newPolygon: [number, number, number][][] = [];
-  polygon.forEach((ring) => {
-    const newRing: [number, number, number][] = [];
-    ring.forEach((segment) => {
-      segment.map((point) => {
-        if (!tableIncludePoint(newRing, point))
-          newRing.push(point);
-        if (!firstPoint) {
-          firstPoint = point;
-        }
-      })
-    })
-    newRing.push(newRing[0]);
-    newPolygon.push(newRing);
-  })
-  const material = new THREE.MeshBasicMaterial({ color: colors[i] });
-  material.side = THREE.DoubleSide;
-
-  const faceGeom = createBufferGeometryFromPolygon(newPolygon);
-  const mesh = new THREE.Mesh(faceGeom, material);
-  bufferGeometries.push(faceGeom);
-
-  if (firstPoint) {
-    mesh.position.x = -firstPoint[0];
-    mesh.position.y = -firstPoint[1];
-    mesh.position.z = -firstPoint[2];
-  }
-  
-  //scene.add(mesh);
-
-  // Applatissement
-  const A = subtract(newPolygon[0][1], newPolygon[0][0]);
-  const B = subtract(newPolygon[0][2], newPolygon[0][0]);
-
-  u = normalize(A);
-  v = subtract(B, [dotProduct(u, B) * u[0], dotProduct(u, B) * u[1], dotProduct(u, B) * u[2]]);
-  v = normalize(v);
-  o = newPolygon[0][0];
-
-  const flatVertices = flattenPolygon(newPolygon, u, v, o);
-  faces.push(flatVertices);
-
-  //// ! Applatissement
-  //const displayableVertices: [number, number, number][][] = flatVertices.map((ring) => ring.map((point) => [point[0], 0, point[1]]));
-  
-  //const flatGeom = createBufferGeometryFromPolygon(displayableVertices as ThreePoint[][]);
-  //const flatMesh = new THREE.Mesh(flatGeom, material);
-  //flatMesh.position.x = (i * 15) - 50;
-  // scene.add(flatMesh);
-});
-
-const matrixCells = getFlatGridPoints(faces[0], 3);
-
-console.log(matrixCells);
+//!!!fonction reprendre depuis poc imbrque
+const createPolygonFromPoints = (cell: any[]) => {
+  let polygon = [];
+  polygon = cell.map((ring: any[]) => {
+    return ring.map((point) => {
+      return [point[0], point[1], point[2]];
+    });
+  });
+  return polygon;
+}
 
 function generateRandomColor(): string {
   // Génère un nombre aléatoire entre 0 et 16777215 (le plus grand nombre hexadécimal pour une couleur)
@@ -120,8 +76,8 @@ function generateRandomColor(): string {
   // Convertit ce nombre en une chaîne hexadécimale et ajoute les zéros en tête si nécessaire
   const randomColor = "#" + randomNumber.toString(16).padStart(6, '0');
   return randomColor;
+  
 }
-
 //drawmatrix(matrixCells);
 
 function drawmatrix(matrixCells: any[]) {
@@ -135,12 +91,56 @@ function drawmatrix(matrixCells: any[]) {
     });
   });
 }
+export const getGridPoints = (originalBatPoints: any, ratio: number) => {
+  originalBatPoints.forEach((polygon: any[], _i: number) => {
+    console.log("polygon", _i);
+    const newPolygon: [number, number, number][][] = [];
+    polygon.forEach((ring: any[]) => {
+      const newRing: [number, number, number][] = [];
+      ring.forEach((segment: any[]) => {
+        segment.map((point: [number, number, number]) => {
+          if (!tableIncludePoint(newRing, point))
+            newRing.push(point);
+          if (!firstPoint) {
+            firstPoint = point;
+          }
+        })
+      })
+      newRing.push(newRing[0]);
+      newPolygon.push(newRing);
+    })
+  
+    // Applatissement
+    const A = subtract(newPolygon[0][1], newPolygon[0][0]);
+    const B = subtract(newPolygon[0][2], newPolygon[0][0]);
+  
+    let u = normalize(A);
+    let v = subtract(B, [dotProduct(u, B) * u[0], dotProduct(u, B) * u[1], dotProduct(u, B) * u[2]]);
+    v = normalize(v);
+    const o = newPolygon[0][0];
+  
+    const flattenedPolygon = flattenPolygon(newPolygon, u, v, o);
 
-let unflattenedGrid = matrixCells.map((column) =>
-  column.map((cell) => unflattenPolygon(cell, u, v, o)),
-);
+    const grid = getFlatGridPoints(flattenedPolygon, ratio);
+
+    let unflattenGrid = grid.map((col) => {
+      return col.map((cell)  => {
+        return unflattenPolygon(cell, u, v, o)
+      });
+    });
 
 
+    const unflatG = unflattenGrid.map((col) => {
+      return createPolygonFromPoints(col);
+    })
+
+    console.log("unflatG", unflatG);//unflatG correspond a une face 
+    //une question demeure quqnd qppeler cette fonction
+  });
+};
+
+
+getGridPoints(BatPoints, 1);
 
 // Render loop
 function animate() {

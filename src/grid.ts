@@ -88,8 +88,6 @@ export const getFlatGridPoints = (
     // Get all the cells that might intersect with the polygon
     const potentialCells = rtree.search(queryBBox);
     
-    console.log("potentialCells", potentialCells);
-
     // Iterate over the potential cells and check for actual intersection
     for (const cell of potentialCells) {
       const newPolygon = intersectPolygons(polygon, cell.square);

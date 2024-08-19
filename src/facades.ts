@@ -73,7 +73,6 @@ export function unprojectPoint(
   origin: ThreePoint,
   point: [number, number],
 ): ThreePoint {
-
   return [
     origin[0] + point[0] * u[0] + point[1] * v[0],
     origin[1] + point[0] * u[1] + point[1] * v[1],
@@ -83,23 +82,23 @@ export function unprojectPoint(
 
 // Fonction pour transformer un polygone 2D en 3D
 export function unflattenPolygon(
-  flattenPolygon: [number, number][][],
+  cell: [number, number][][],
   u: ThreePoint,
   v: ThreePoint,
   origin: ThreePoint,
 ): ThreePoint[][] {
-  if (flattenPolygon.length === 0 || flattenPolygon[0].length < 3) {
+  if (cell.length === 0 || cell[0].length < 3) {
     throw new Error(
       'Un polygone doit avoir un contour extérieur avec au moins 3 points.',
     );
   }
 
-  return flattenPolygon.map((ring) =>
+  return cell.map((ring) =>
     ring.map((point) => unprojectPoint(u, v, origin, point)),
   );
 }
 
-/**
+/** 
  * Fonction pour trianguler un polygone 3D afin d'obtenir une liste d'indices pour créer un BufferGeometry
  * @param polygon
  * @returns
