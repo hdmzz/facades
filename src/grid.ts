@@ -178,21 +178,7 @@ export const getGridPoints = (polygon: any[], ratio: number): [number, number, n
   })
 
   //CCW 
-  // Ensure triangles are defined in counterclockwise order
-  const ensureCounterClockwise = (triangle: [number, number, number][]): [number, number, number][] => {
-    const [a, b, c] = triangle
-    const area = (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1])
-    return area < 0 ? [a, c, b] : triangle
-  }
-
-  const ccwUnflatG = unflatG.map((col) => {
-    return col.map((cell) => {
-      return cell.map((triangle) => ensureCounterClockwise(triangle))
-    })
-  })
-
-  return ccwUnflatG
-
+  
   return unflatG;
 };
   
