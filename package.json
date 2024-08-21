@@ -21,6 +21,7 @@
   "dependencies": {
     "@turf/turf": "^7.0.0",
     "@types/rbush": "^3.0.3",
+    "@types/three": "^0.167.1",
     "proj4": "^2.11.0",
     "rbush": "^4.0.0",
     "three": "^0.166.1",
