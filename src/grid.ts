@@ -1,6 +1,6 @@
 import * as turf from '@turf/turf';
 import RBush from 'rbush';
-import { dotProduct, flattenPolygon, normalize, subtract, unflattenPolygon } from './facades';
+import { dotProduct, flattenPolygon, normalize, subtract, ThreePoint, unflattenPolygon } from './facades';
 
 interface BBox {
   minX: number;
@@ -47,8 +47,24 @@ export function intersectPolygons(
     return null;
 }
 
-const formatHoles = (polygon: any[]) => {
+function getThreePoints(ring: any[]): ThreePoint[] {
+  return ring.map((point) => {
+    return [...point];
+  }) as ThreePoint[];
+}
 
+const formatHoles = (polygon: any[]) => {
+  let extreriorRingClockwise: boolean = true;
+  for (let i = 0; i < polygon.length; i++) {
+    const threePoints = getThreePoints(polygon[i]);
+    //const isClockwise = ringClockwise(
+    //  threePoints.map((point: any) => {return point.slice(0, 2)}),
+    //);
+    //console.log(`isClockwise ${i} `, isClockwise);
+    //if (i === 0) extreriorRingClockwise = isClockwise;
+    //else if (isClockwise === extreriorRingClockwise)
+    //  polygon[i].reverse();
+  }
 };
 
 /**
@@ -64,7 +80,8 @@ const createPolygonFromPoints = (cell: any[]) => {
       return [point[0], point[1], point[2]];
     });
   });
-
+  //CCW
+  //formatHoles(polygon);//RAF formatHoles
   return polygon;
 }
 
@@ -176,9 +193,7 @@ export const getGridPoints = (polygon: any[], ratio: number): [number, number, n
   const unflatG = unflattenGrid.map((col) => {
     return createPolygonFromPoints(col);
   })
-
-  //CCW 
-  
+  console.log(unflatG);
   return unflatG;
 };
   

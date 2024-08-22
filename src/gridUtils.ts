@@ -2,6 +2,7 @@ import { dotProduct, flattenPolygon, normalize, normalVector, subtract, ThreePoi
 import * as THREE from "three";
 import earcut from "earcut"; 
 import { ConvexGeometry } from "three/examples/jsm/Addons.js";
+import { generateRandomColor } from "./main";
 
 export const truncateNumber = (num: number, decimalPlaces: number): number => {
     const factor = Math.pow(10, decimalPlaces);
@@ -13,48 +14,48 @@ export const truncateNumber = (num: number, decimalPlaces: number): number => {
  * @param points
  * @returns true si le polygone est orienté dans le sens horaire, false sinon
  */
-//export const ringClockwise = (ring: ThreePoint[]): boolean => {
-//    // aplatir le polygone
-//    const A = subtract(ring[1], ring[0]);
-//    const B = subtract(ring[2], ring[0]);
-
-//    const normal = normalVector(ring[0], ring[1], ring[2]);
-
-//    // Orthonormalisation de Gram-Schmidt
-//    let u = normalize(A);
-//    let v = subtract(B, [dotProduct(u, B) * u[0], dotProduct(u, B) * u[1], dotProduct(u, B) * u[2]]);
-//    v = normalize(v);
-//    const o = ring[0];
-
-//    let flattened = flattenPolygon([ring], u, v, o);
-//    flattened = flattened.map((r) =>
-//        r.map((p) => [truncateNumber(p[0], 0), truncateNumber(p[1], 0)]),
-//    );
-
-//    let area = 0;
-//    const n = flattened.length;
-
-//    for (let i = 0; i < n; i++) {
-//        const x1 = flattened[0][i][0];
-//        const y1 = flattened[0][i][1];
-//        const x2 = flattened[0][(i + 1) % n][0]; // % n assure que l'indice revient à 0 pour le dernier point
-//        const y2 = flattened[0][(i + 1) % n][1];
-
-//        area += x1 * y2 - x2 * y1;
-//    }
-
-//    const signedArea = area / 2;
-//    const isClockwiseFlattened = signedArea < 0;
-
-//    // Si le polygone aplati est dans le sens horaire et que le vecteur normal pointe vers le haut,
-//    // cela signifie que le polygone 3D est également dans le sens horaire. Sinon, il est antihoraire.
-//    const isClockwise = normal[2] >= 0 === isClockwiseFlattened;
-
-//    return isClockwise;
-//};
-
-
 export const ringClockwise = (ring: ThreePoint[]): boolean => {
+    // aplatir le polygone
+    const A = subtract(ring[1], ring[0]);
+    const B = subtract(ring[2], ring[0]);
+
+    const normal = normalVector(ring[0], ring[1], ring[2]);
+
+    // Orthonormalisation de Gram-Schmidt
+    let u = normalize(A);
+    let v = subtract(B, [dotProduct(u, B) * u[0], dotProduct(u, B) * u[1], dotProduct(u, B) * u[2]]);
+    v = normalize(v);
+    const o = ring[0];
+
+    let flattened = flattenPolygon([ring], u, v, o);
+    flattened = flattened.map((r) =>
+        r.map((p) => [truncateNumber(p[0], 0), truncateNumber(p[1], 0)]),
+    );
+
+    let area = 0;
+    const n = flattened.length;
+
+    for (let i = 0; i < n; i++) {
+        const x1 = flattened[0][i][0];
+        const y1 = flattened[0][i][1];
+        const x2 = flattened[0][(i + 1) % n][0]; // % n assure que l'indice revient à 0 pour le dernier point
+        const y2 = flattened[0][(i + 1) % n][1];
+
+        area += x1 * y2 - x2 * y1;
+    }
+
+    const signedArea = area / 2;
+    const isClockwiseFlattened = signedArea < 0;
+
+    // Si le polygone aplati est dans le sens horaire et que le vecteur normal pointe vers le haut,
+    // cela signifie que le polygone 3D est également dans le sens horaire. Sinon, il est antihoraire.
+    const isClockwise = normal[2] >= 0 === isClockwiseFlattened;
+
+    return isClockwise;
+};
+
+
+export const ringClockwise2 = (ring: ThreePoint[]): boolean => {
     if (ring.length < 3) return false;
 
     const v1 = subtract(ring[1], ring[0]);
@@ -94,13 +95,18 @@ const buildIndices = (polygon: ThreePoint[][]): number[] => {
 export function createPolygon(verticesArray: any[]) {
     const geometry = new THREE.BufferGeometry();
     const vertices: any[] = [];
+    const normals: any[] = [];
+    //normalize the vertices
 
     verticesArray.forEach((vertex) => {
         vertices.push(...vertex);
+        normals.push(normalVector(verticesArray[0], verticesArray[1], verticesArray[2]));
     });
 
     geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
-    const material = new THREE.MeshBasicMaterial({ color: "#FF0000", wireframe: true });
+    geometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(normals), 3));
+    geometry.setIndex(buildIndices([verticesArray]));
+    const material = new THREE.MeshBasicMaterial({ color: generateRandomColor(), wireframe: true });
     const mesh = new THREE.Mesh(geometry, material);
    
     return mesh;

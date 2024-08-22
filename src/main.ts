@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { constructBat } from './Constructor';
 import {  getGridPoints } from './grid';
-import { createBufferGeometryFromPolygon } from './facades';
 import { createPolygon } from './gridUtils';
 // gridHelper.rotation.x = Math.PI / 2;
 
@@ -11,7 +10,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-camera.position.set(0, 50, 50); // Positionner la caméra pour qu'elle puisse voir la scène
+camera.position.set(-50, 50, -70); // Positionner la caméra pour qu'elle puisse voir la scène
 
 scene.add(gridHelper);
 
@@ -40,7 +39,7 @@ const originialBatPoints = bat.getPolygonFromPolyhedron().map((polygon) => polyg
 
 const bufferGeometries: THREE.BufferGeometry[] = [];
 
-function generateRandomColor(): string {
+export function generateRandomColor(): string {
   // Génère un nombre aléatoire entre 0 et 16777215 (le plus grand nombre hexadécimal pour une couleur)
   const randomNumber = Math.floor(Math.random() * 16777215);
   // Convertit ce nombre en une chaîne hexadécimale et ajoute les zéros en tête si nécessaire
@@ -48,23 +47,6 @@ function generateRandomColor(): string {
   return randomColor;
   
 }
-//drawmatrix(matrixCells);
-
-//function drawmatrix(matrixCells: any[]) {
-//  matrixCells.forEach((col: any[]) => {
-//    col.forEach((cell: any[]) => {
-//      const material = new THREE.MeshBasicMaterial({ color: generateRandomColor() });
-//      material.side = THREE.DoubleSide;
-//      const cellGeom = createBufferGeometryFromPolygon(cell.map((ring: any[]) => ring.map((point: any[]) => [point[0], 0, point[1]])));
-//      const cellMesh = new THREE.Mesh(cellGeom, material);
-//      scene.add(cellMesh);
-//    });
-//  });
-//}
-
-
-
-
 
 // Render loop
 function animate() {
@@ -76,9 +58,8 @@ function animate() {
 animate();
 
 
-originialBatPoints.forEach((polygon, i) => {
+originialBatPoints.forEach((polygon, _i) => {
   const grid = getGridPoints(polygon, 1);
-  console.log(`polygone ${i} :`, grid);
   grid.forEach(polygonSet => {
     polygonSet.forEach(polygon => {
         polygon.forEach((verticesArray) => {
