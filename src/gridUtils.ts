@@ -111,3 +111,5 @@ export function createPolygon(verticesArray: any[]) {
    
     return mesh;
 }
+
+
