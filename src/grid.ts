@@ -81,7 +81,7 @@ const createPolygonFromPoints = (cell: any[]) => {
     });
   });
   //CCW
-  //formatHoles(polygon);//RAF formatHoles
+  formatHoles(polygon);//RAF formatHoles
   return polygon;
 }
 
@@ -183,17 +183,18 @@ export const getGridPoints = (polygon: any[], ratio: number): [number, number, n
 
   const grid = getFlatGridPoints(flattenedPolygon, ratio);
 
+  console.log(grid);
+  
   let unflattenGrid = grid.map((col) => {
     return col.map((cell)  => {
       return unflattenPolygon(cell, u, v, o)
     });
   });
 
-
+  
   const unflatG = unflattenGrid.map((col) => {
     return createPolygonFromPoints(col);
   })
-  console.log(unflatG);
   return unflatG;
 };
   

@@ -10,7 +10,14 @@ export type FlattenConfig = {
 };
 
 
-// Calculer le vecteur normal au plan formé par les points a, b, c
+/**
+ * Calculates the normal vector to the plane formed by the three given points.
+ *
+ * @param a - The first point on the plane.
+ * @param b - The second point on the plane.
+ * @param c - The third point on the plane.
+ * @returns The normal vector to the plane formed by the three points.
+ */
 export function normalVector(
   a: ThreePoint,
   b: ThreePoint,

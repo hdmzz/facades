@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { constructBat } from './Constructor';
 import {  getGridPoints } from './grid';
-import { createPolygon } from './gridUtils';
+import { createPolygon, createTriangles } from './gridUtils';
 // gridHelper.rotation.x = Math.PI / 2;
 
 const gridHelper = new THREE.GridHelper(100, 30);
@@ -40,9 +40,7 @@ const originialBatPoints = bat.getPolygonFromPolyhedron().map((polygon) => polyg
 const bufferGeometries: THREE.BufferGeometry[] = [];
 
 export function generateRandomColor(): string {
-  // Génère un nombre aléatoire entre 0 et 16777215 (le plus grand nombre hexadécimal pour une couleur)
   const randomNumber = Math.floor(Math.random() * 16777215);
-  // Convertit ce nombre en une chaîne hexadécimale et ajoute les zéros en tête si nécessaire
   const randomColor = "#" + randomNumber.toString(16).padStart(6, '0');
   return randomColor;
   
@@ -57,15 +55,25 @@ function animate() {
 
 animate();
 
-
-originialBatPoints.forEach((polygon, _i) => {
-  const grid = getGridPoints(polygon, 1);
-  grid.forEach(polygonSet => {
-    polygonSet.forEach(polygon => {
-        polygon.forEach((verticesArray) => {
-          const mesh = createPolygon(verticesArray);
-          scene.add(mesh);
-        });
-    });
+const poly = originialBatPoints[3];
+const firsttry = getGridPoints(poly, 1);
+firsttry.forEach(polygonSet => {
+  polygonSet.forEach(polygon => {
+      polygon.forEach((verticesArray) => {
+        const mesh = createPolygon(verticesArray);
+        scene.add(mesh);
+      });
   });
 });
+
+//originialBatPoints.forEach((polygon, _i) => {
+//  const grid = getGridPoints(polygon, 1);
+//  grid.forEach(polygonSet => {
+//    polygonSet.forEach(polygon => {
+//        polygon.forEach((verticesArray) => {
+//          const mesh = createPolygon(verticesArray);
+//          scene.add(mesh);
+//        });
+//    });
+//  });
+//});

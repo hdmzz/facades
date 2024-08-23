@@ -92,24 +92,94 @@ const buildIndices = (polygon: ThreePoint[][]): number[] => {
     return indices;
   };
 
-export function createPolygon(verticesArray: any[]) {
+  export function createPolygon(verticesArray: any[]) {
+    const normals: number[] = [];
+
+    // Flatten the vertices array
+    const flatVertices = verticesArray.flat();
+
+    // Use earcut to triangulate the polygon
+    const indices = earcut(flatVertices, [], 3);
+
+    // Calculate normals for each triangle
+    for (let i = 0; i < indices.length; i += 3) {
+        const a = indices[i];
+        const b = indices[i + 1];
+        const c = indices[i + 2];
+
+        const vertexA = new THREE.Vector3(flatVertices[a * 3], flatVertices[a * 3 + 1], flatVertices[a * 3 + 2]);
+        const vertexB = new THREE.Vector3(flatVertices[b * 3], flatVertices[b * 3 + 1], flatVertices[b * 3 + 2]);
+        const vertexC = new THREE.Vector3(flatVertices[c * 3], flatVertices[c * 3 + 1], flatVertices[c * 3 + 2]);
+
+        const normal = new THREE.Vector3().crossVectors(
+            new THREE.Vector3().subVectors(vertexB, vertexA),
+            new THREE.Vector3().subVectors(vertexC, vertexA)
+        ).normalize();
+
+        normals.push(normal.x, normal.y, normal.z);
+        normals.push(normal.x, normal.y, normal.z);
+        normals.push(normal.x, normal.y, normal.z);
+    }
+
     const geometry = new THREE.BufferGeometry();
-    const vertices: any[] = [];
-    const normals: any[] = [];
-    //normalize the vertices
-
-    verticesArray.forEach((vertex) => {
-        vertices.push(...vertex);
-        normals.push(normalVector(verticesArray[0], verticesArray[1], verticesArray[2]));
-    });
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
+    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(flatVertices), 3));
     geometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(normals), 3));
-    geometry.setIndex(buildIndices([verticesArray]));
-    const material = new THREE.MeshBasicMaterial({ color: generateRandomColor(), wireframe: true });
+    geometry.setIndex(indices);
+    
+    const material = new THREE.MeshBasicMaterial({ color: generateRandomColor(), side: THREE.DoubleSide });
     const mesh = new THREE.Mesh(geometry, material);
-   
-    return mesh;
+
+    return mesh;}
+
+
+//debut fix try number 1 need to be done for each fcking polygone 
+export function createTriangles(vertices: any[]): THREE.BufferGeometry {
+    const geometry = new THREE.BufferGeometry(); 
+    const position: number[] = [];
+    const colors: number[] = [];
+
+    console.log("create TRINAGLEs", vertices);
+
+    const color = new THREE.Color();
+    for (let i = 0; i < vertices.length; i += 4) {
+        const v1 = vertices[i * 4];
+        const v2 = vertices[i * 4 + 1];
+        const v3 = vertices[i * 4 + 2];
+        const v4 = vertices[i * 4 + 3];
+
+        //premier triangle
+        position.push(v1[0], v1[1], v1[2], v2[0], v2[1], v2[2], v3[0], v3[1], v3[2]);
+        console.log(position);
+        color.set(Math.random() * 0xffffff);
+        for (let j = 0; j < 3; j++) {
+            colors.push(color.r, color.g, color.b);
+        }
+        //deuxieme triangle
+        position.push(v1[0], v1[1], v1[2], v3[0], v3[1], v3[2], v4[0], v4[1], v4[2]);
+        color.set(Math.random() * 0xffffff);
+        for (let j = 0; j < 3; j++) {
+            colors.push(color.r, color.g, color.b);
+        }
+    }
+    
+    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(position), 3));
+
+    console.log(geometry);
+
+    return geometry;
+}
+
+export function flattenData(data: any[][][][][]): THREE.Vector3[] {
+    const vertices: THREE.Vector3[] = [];
+
+    data.forEach((layer) => {
+        layer.forEach((square) => {
+            square.forEach((point) => {
+                vertices.push(new THREE.Vector3(point[0] as unknown as number, point[1] as unknown as number, point[2] as unknown as number));
+            });
+        });
+    });
+    return vertices;
 }
 
 
