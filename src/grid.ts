@@ -1,6 +1,8 @@
 import * as turf from '@turf/turf';
 import RBush from 'rbush';
 import { dotProduct, flattenPolygon, normalize, subtract, ThreePoint, unflattenPolygon } from './facades';
+import * as THREE from 'three';
+
 
 interface BBox {
   minX: number;
@@ -152,7 +154,7 @@ export const getFlatGridPoints = (
  * @param ratio - The ratio to use when generating the grid.
  * @returns A grid of polygons, where each polygon is an array of points.
  */
-export const getGridPoints = (polygon: any[], ratio: number): [number, number, number][][][][] => {
+export const getGridPoints = (polygon: any[], ratio: number): THREE.BufferGeometry[] => {
   let firstPoint: [number, number, number] | null = null;
   const newPolygon: [number, number, number][][] = [];
   polygon.forEach((ring: any[], i) => {
@@ -183,18 +185,51 @@ export const getGridPoints = (polygon: any[], ratio: number): [number, number, n
 
   const grid = getFlatGridPoints(flattenedPolygon, ratio);
 
-  console.log(grid);
   
   let unflattenGrid = grid.map((col) => {
     return col.map((cell)  => {
       return unflattenPolygon(cell, u, v, o)
     });
   });
+  
+  const cellUnique = unflattenGrid[0][0][0];
+
+  const geom = new THREE.BufferGeometry();
+  
+  const points: any[] = [];
+  
+  cellUnique.forEach((point) => {
+    points.push(point[0], point[1], point[2]);
+  })
+
+  geom.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+
+ return [geom];
+//try one bbuffergeometry per cell
+
+
+  //const cellGeometry = new THREE.BufferGeometry();
+  //const vertices = cell.flat();
+  //console.log(vertices);
+  ////cellGeometry.setFromPoints(vertices);
+  ////cellGeometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+
+  //// Assign a color to the cell
+  //const color = new THREE.Color(Math.random(), Math.random(), Math.random());
+  //const colors = new Float32Array(vertices.length);
+  //for (let i = 0; i < vertices.length; i += 3) {
+  //  colors[i] = color.r;
+  //  colors[i + 1] = color.g;
+  //  colors[i + 2] = color.b;
+  //}
+  //cellGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+  //geometries.push(cellGeometry);
+
 
   
-  const unflatG = unflattenGrid.map((col) => {
-    return createPolygonFromPoints(col);
-  })
-  return unflatG;
+  //const unflatG = unflattenGrid.map((col) => {
+  //  return createPolygonFromPoints(col);
+  //})
+  //return unflatG;
 };
-  

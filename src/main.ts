@@ -1,8 +1,9 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/Addons.js';
+import { BufferGeometryUtils, OrbitControls } from 'three/examples/jsm/Addons.js';
 import { constructBat } from './Constructor';
 import {  getGridPoints } from './grid';
 import { createPolygon, createTriangles } from './gridUtils';
+import { ensureNormalsPointUpwards } from './facades';
 // gridHelper.rotation.x = Math.PI / 2;
 
 const gridHelper = new THREE.GridHelper(100, 30);
@@ -57,14 +58,18 @@ animate();
 
 const poly = originialBatPoints[3];
 const firsttry = getGridPoints(poly, 1);
-firsttry.forEach(polygonSet => {
-  polygonSet.forEach(polygon => {
-      polygon.forEach((verticesArray) => {
-        const mesh = createPolygon(verticesArray);
-        scene.add(mesh);
-      });
-  });
-});
+
+console.log("firsttry", firsttry);
+
+firsttry.forEach((geometrie) => {
+  ensureNormalsPointUpwards(geometrie);
+  const nonIndexedGeometry = BufferGeometryUtils.mergeVertices(geometrie);
+  const material = new THREE.MeshBasicMaterial({ color: "red", side: THREE.DoubleSide });
+  const line = new THREE.Line(nonIndexedGeometry, material);
+  scene.add(line);
+  const mesh = new THREE.Mesh(nonIndexedGeometry, material);
+  scene.add(mesh);
+})
 
 //originialBatPoints.forEach((polygon, _i) => {
 //  const grid = getGridPoints(polygon, 1);
