@@ -2,6 +2,8 @@ import * as turf from '@turf/turf';
 import RBush from 'rbush';
 import { dotProduct, flattenPolygon, normalize, subtract, ThreePoint, unflattenPolygon } from './facades';
 import * as THREE from 'three';
+import { BufferGeometryUtils } from 'three/examples/jsm/Addons.js';
+import { ringClockwise } from './gridUtils';
 
 
 interface BBox {
@@ -59,13 +61,13 @@ const formatHoles = (polygon: any[]) => {
   let extreriorRingClockwise: boolean = true;
   for (let i = 0; i < polygon.length; i++) {
     const threePoints = getThreePoints(polygon[i]);
-    //const isClockwise = ringClockwise(
-    //  threePoints.map((point: any) => {return point.slice(0, 2)}),
-    //);
-    //console.log(`isClockwise ${i} `, isClockwise);
-    //if (i === 0) extreriorRingClockwise = isClockwise;
-    //else if (isClockwise === extreriorRingClockwise)
-    //  polygon[i].reverse();
+    const isClockwise = ringClockwise(
+      threePoints.map((point: any) => {return point.slice(0, 2)}),
+    );
+    console.log(`isClockwise ${i} `, isClockwise);
+    if (i === 0) extreriorRingClockwise = isClockwise;
+    else if (isClockwise === extreriorRingClockwise)
+      polygon[i].reverse();
   }
 };
 
@@ -90,7 +92,7 @@ const createPolygonFromPoints = (cell: any[]) => {
 export const getFlatGridPoints = (
     polygon: [number, number][][],
     resolution: number,
-  ): [number, number][][][][] => {
+  ): [number, number][][][][] => {//return {position + vertices}
   let grid: [number, number][][][][] = [];
 
   const bbox = turf.bbox(turf.polygon(polygon));
@@ -143,6 +145,8 @@ export const getFlatGridPoints = (
       grid[columnIndex].push(newPolygon);
     }
   }
+
+  
 
   return grid;
 };
@@ -203,14 +207,24 @@ export const getGridPoints = (polygon: any[], ratio: number): THREE.BufferGeomet
   })
 
   geom.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+  geom.computeVertexNormals();
 
- return [geom];
-//try one bbuffergeometry per cell
+	console.log("geom", geom);	
+	//!return [geom];// ca marchait bien pour un ecase pas encore de full case ;}
+	//try one bbuffergeometry per cell
 
+	const geometries: THREE.BufferGeometry[] = [];
 
-  //const cellGeometry = new THREE.BufferGeometry();
-  //const vertices = cell.flat();
-  //console.log(vertices);
+	unflattenGrid.forEach((col, colIndex) => {
+	col.forEach((cell, cellIndex) => {
+		const cellGeometry = new THREE.BufferGeometry();
+		const vertices = cell.flat(2);
+		cellGeometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));      
+		geometries.push(cellGeometry);
+		});
+	});
+	
+	return geometries;
   ////cellGeometry.setFromPoints(vertices);
   ////cellGeometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
 

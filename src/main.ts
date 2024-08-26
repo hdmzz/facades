@@ -1,9 +1,7 @@
 import * as THREE from 'three';
-import { BufferGeometryUtils, OrbitControls } from 'three/examples/jsm/Addons.js';
+import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { constructBat } from './Constructor';
 import {  getGridPoints } from './grid';
-import { createPolygon, createTriangles } from './gridUtils';
-import { ensureNormalsPointUpwards } from './facades';
 // gridHelper.rotation.x = Math.PI / 2;
 
 const gridHelper = new THREE.GridHelper(100, 30);
@@ -61,15 +59,23 @@ const firsttry = getGridPoints(poly, 1);
 
 console.log("firsttry", firsttry);
 
-firsttry.forEach((geometrie) => {
-  ensureNormalsPointUpwards(geometrie);
-  const nonIndexedGeometry = BufferGeometryUtils.mergeVertices(geometrie);
-  const material = new THREE.MeshBasicMaterial({ color: "red", side: THREE.DoubleSide });
-  const line = new THREE.Line(nonIndexedGeometry, material);
-  scene.add(line);
-  const mesh = new THREE.Mesh(nonIndexedGeometry, material);
-  scene.add(mesh);
+firsttry.forEach((geometrie, i) => {
+	if (i === 95) {
+		const material = new THREE.MeshBasicMaterial({ color: generateRandomColor() });
+		const line = new THREE.Line(geometrie, material);
+
+		scene.add(line);
+		const mesh = new THREE.Mesh(geometrie, material);
+		scene.add(mesh);
+	}
 })
+
+const cube = new THREE.BoxGeometry(10, 10, 10);
+console.log("cube", cube);
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const mesh = new THREE.Mesh(cube, material);
+
+scene.add(mesh);
 
 //originialBatPoints.forEach((polygon, _i) => {
 //  const grid = getGridPoints(polygon, 1);
