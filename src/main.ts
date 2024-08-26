@@ -59,23 +59,14 @@ const firsttry = getGridPoints(poly, 1);
 
 console.log("firsttry", firsttry);
 
-firsttry.forEach((geometrie, i) => {
-	if (i === 95) {
-		const material = new THREE.MeshBasicMaterial({ color: generateRandomColor() });
-		const line = new THREE.Line(geometrie, material);
+firsttry.forEach((geometrie, _i) => {
+	const material = new THREE.MeshBasicMaterial({ color: generateRandomColor(), side:THREE.DoubleSide });
+	//const line = new THREE.Line(geometrie, material);
 
-		scene.add(line);
-		const mesh = new THREE.Mesh(geometrie, material);
-		scene.add(mesh);
-	}
+	//scene.add(line);
+	const mesh = new THREE.Mesh(geometrie, material);
+	scene.add(mesh);
 })
-
-const cube = new THREE.BoxGeometry(10, 10, 10);
-console.log("cube", cube);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const mesh = new THREE.Mesh(cube, material);
-
-scene.add(mesh);
 
 //originialBatPoints.forEach((polygon, _i) => {
 //  const grid = getGridPoints(polygon, 1);
