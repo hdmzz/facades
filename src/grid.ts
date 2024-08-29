@@ -1,9 +1,7 @@
 import * as turf from '@turf/turf';
 import RBush from 'rbush';
-import { dotProduct, flattenPolygon, normalize, subtract, ThreePoint, unflattenPolygon } from './facades';
+import { dotProduct, flattenPolygon, normalize, subtract, unflattenPolygon } from './facades';
 import * as THREE from 'three';
-import { ringClockwise } from './gridUtils';
-import earcut from "earcut";
 
 interface BBox {
 	minX: number;
@@ -48,44 +46,6 @@ export function intersectPolygons(
 		}
 	
 		return null;
-}
-
-function getThreePoints(ring: any[]): ThreePoint[] {
-	return ring.map((point) => {
-		return [...point];
-	}) as ThreePoint[];
-}
-
-const formatHoles = (polygon: any[]) => {
-	let extreriorRingClockwise: boolean = true;
-	for (let i = 0; i < polygon.length; i++) {
-		const threePoints = getThreePoints(polygon[i]);
-		const isClockwise = ringClockwise(
-			threePoints.map((point: any) => {return point.slice(0, 2)}),
-		);
-		console.log(`isClockwise ${i} `, isClockwise);
-		if (i === 0) extreriorRingClockwise = isClockwise;
-		else if (isClockwise === extreriorRingClockwise)
-			polygon[i].reverse();
-	}
-};
-
-/**
- * Fonction pour obtenir une grille de cellule à l'intérieur d'un polygone 3D
- * @param polygon Le polygone 3D est un polygone dont tous les points sont sur le même plan
- * @param resolution la taille maximale du côté d'une cellule
- * @return Une grille de cellules qui prend la place de la face
- */
-const createPolygonFromPoints = (cell: any[]) => {
-	let polygon = [];
-	polygon = cell.map((ring: any[]) => {
-		return ring.map((point) => {
-			return [point[0], point[1], point[2]];
-		});
-	});
-	//CCW
-	formatHoles(polygon);//RAF formatHoles
-	return polygon;
 }
 
 export const getFlatGridPoints = (
@@ -198,8 +158,6 @@ export const getGridPoints = (polygon: any[], ratio: number): THREE.BufferGeomet
 		})
 	})
 
-	const indices = earcut(vertices, [], 2);
-	console.log("VERTICES", vertices);
 	//unflattenGrid sera une collection de polygon donc a l'inter 
 	let unflattenGrid = grid.map((col) => {
 		return col.map((cell)	=> {
@@ -209,8 +167,6 @@ export const getGridPoints = (polygon: any[], ratio: number): THREE.BufferGeomet
 	
 	const cellUnique = unflattenGrid[0][0];
 
-	console.log('cellUnique', cellUnique);
-	
 	const geom = new THREE.BufferGeometry();
 	
 	const points: any[] = [];
@@ -222,8 +178,6 @@ export const getGridPoints = (polygon: any[], ratio: number): THREE.BufferGeomet
 	geom.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
 	geom.setIndex(new THREE.BufferAttribute(new Uint16Array(cellUnique.indices), 1));
 
-	console.log('Geom', geom);
-	
 	const geometries: THREE.BufferGeometry[] = [];
 
 	unflattenGrid.forEach((col, _colIndex) => {

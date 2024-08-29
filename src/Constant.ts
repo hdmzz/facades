@@ -24,23 +24,23 @@ export const center = [4.813175220744565, 45.732103733850856]; //confluence
 // export const globalOrigin = proj4("EPSG:4326", "EPSG:32631", center);
 
 class StateService {
-  private center?: [number, number];
+	private center?: [number, number];
 
-  getCenter() {
-    if (!this.center) throw new Error("Center is not set");
+	getCenter() {
+		if (!this.center) throw new Error("Center is not set");
 
-    return this.center;
-  }
+		return this.center;
+	}
 
-  getGlobalOrigin() {
-    if (!this.center) throw new Error("Center is not set");
+	getGlobalOrigin() {
+		if (!this.center) throw new Error("Center is not set");
 
-    return proj4("EPSG:4326", "EPSG:32631", this.center);
-  }
+		return proj4("EPSG:4326", "EPSG:32631", this.center);
+	}
 
-  setCenter(center: [number, number]) {
-    this.center = center;
-  }
+	setCenter(center: [number, number]) {
+		this.center = center;
+	}
 }
 
 const instance = new StateService();
